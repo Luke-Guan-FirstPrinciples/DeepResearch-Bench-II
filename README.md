@@ -320,10 +320,10 @@ DeepResearch-Bench-II/
 
 ### 1. Prepare your model outputs
 
-Organize your model-generated reports under `PDF_DIR` (default `grok`) with the following structure:
+Organize your model-generated reports under `report` with the following structure:
 
 ```text
-PDF_DIR/
+report/
 ├── ModelA/
 │   ├── idx-1.pdf
 │   ├── idx-2.pdf
@@ -359,8 +359,7 @@ After you have a merged JSONL of evaluation results (e.g., `merged.jsonl`), run:
 
 ```bash
 python aggregate_scores.py \
-  --input merged.jsonl \
-  --output-prefix analysis/agg_scores \
+  --input result.jsonl \
   --tasks-file tasks_and_rubrics.jsonl
 ```
 
@@ -380,31 +379,7 @@ Each CSV summarizes model performance by task (`idx`), including:
 
 ---
 
-## Output Format
 
-Evaluation results are stored as JSON Lines (`.jsonl`):
-
-```jsonl
-{"model": "model_name", "idx": 1, "result": {...}}
-{"model": "model_name", "idx": 2, "result": {...}}
-```
-
-For each line:
-
-- `model`: model identifier (derived from the subdirectory name under `PDF_DIR`)  
-- `idx`: task index (parsed from the file name, e.g., `idx-1.pdf`)  
-- `result`: a dict with:
-  - `task`: task description
-  - `scores`: rubric scores grouped by dimensions:
-    - `info_recall`
-    - `analysis`
-    - `presentation`
-  - `usage_summary`: aggregated token usage across all batches
-  - `usage_metadata_per_batch`: raw `usageMetadata` for each batch
-
-The helper script `aggregate_scores.py` can then produce CSV summaries from a merged JSONL.
-
----
 
 ## Acknowledgements
 
