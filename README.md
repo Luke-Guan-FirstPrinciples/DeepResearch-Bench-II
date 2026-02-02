@@ -88,7 +88,7 @@ After license filtering and quality screening, we retain **132 expert-authored r
 - Ground-truth, expert-aligned rubrics.
 
 <p align="center">
-  <img src="assets/distribution.png" alt="Topic distribution" width="70%">
+  <img src="assets/distributionv2.png" alt="Topic distribution" width="70%">
 </p>
 
 ### Rubric Design from Expert Articles
