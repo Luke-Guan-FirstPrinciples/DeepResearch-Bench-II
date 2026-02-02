@@ -39,6 +39,10 @@ For complete experimental results, model comparisons, and ablation studies, plea
 ## 📖 Overview
 
 <p align="center">
+  <img src="assets/introv2.png" alt="Three-layer framework: recall, analysis, presentation" width="70%">
+</p>
+
+<p align="center">
   <img src="assets/intro.png" alt="Three-layer framework: recall, analysis, presentation" width="70%">
 </p>
 
@@ -112,12 +116,9 @@ Rubrics are built through a four-stage pipeline:
 4. **Expert review & refinement** – domain experts ensure that rubrics faithfully represent the article’s core content.
 
 <p align="center">
-  <img src="assets/method.png" alt="Method overview" width="90%">
+  <img src="assets/methodv2.png" alt="Method overview" width="90%">
 </p>
 
-<p align="center">
-  <img src="assets/method-1.png" alt="Method overview" width="90%">
-</p>
 
 ---
 
