@@ -2,8 +2,8 @@
 
 <div align="center">
 
-<a href="https://huggingface.co"><img alt="Dataset" src="https://img.shields.io/badge/🤗%20Dataset-coming%20soon-FF6F00"></a>
-<a href="https://huggingface.co"><img alt="Leaderboard" src="https://img.shields.io/badge/🏆%20Leaderboard-coming%20soon-FFD700"></a>
+<a href="https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#home"><img alt="Website" src="https://img.shields.io/badge/🌐%20Website-DeepResearch%20Bench%20II-blue"></a>
+<a href="https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#leaderboard"><img alt="Leaderboard" src="https://img.shields.io/badge/🏆%20Leaderboard-View%20Rankings-FFD700"></a>
 <a href="https://arxiv.org/abs/2601.08536"><img src="https://img.shields.io/badge/arXiv-2601.08536-b5212f.svg?logo=arxiv" alt="arxiv"></a>
 
 </div>
@@ -20,6 +20,13 @@ If you like our project, please give us a star ⭐ on GitHub for the latest upda
 ---
 
 # ✨ News
+
++ **[Feb 2026] 🌐 Official Website & Leaderboard Released**  
+  - The official [DeepResearch Bench II Website](https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#home) is now live!  
+  - Check out the [Leaderboard](https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#leaderboard) to see how SOTA deep research agents compare across 9,430 expert-written rubrics.
+
++ **[Jan 2026] 📄 Paper Released on arXiv**  
+  - Our paper is now available on [arXiv (2601.08536)](https://arxiv.org/abs/2601.08536).
 
 + **[Nov 2025] 🎉 DeepResearch Bench II Evaluation Pipeline Released**  
   - This repo provides the official evaluation pipeline for **DeepResearch Bench II**, built on Gemini with fine-grained, verifiable rubrics derived from expert-written research reports.  
