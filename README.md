@@ -24,6 +24,7 @@ If you like our project, please give us a star ⭐ on GitHub for the latest upda
 + **[Feb 2026] 🌐 Official Website & Leaderboard Released**  
   - The official [DeepResearch Bench II Website](https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#home) is now live!  
   - Check out the [Leaderboard](https://agentresearchlab.org/benchmarks/deepresearch-bench-ii/index.html#leaderboard) to see how SOTA deep research agents compare across 9,430 expert-written rubrics.
+  - 🎯 **Welcome to submit your model!** Contact us at imlrz@mail.ustc.edu.cn or dumingxuan@mail.ustc.edu.cn to join the leaderboard.
 
 + **[Jan 2026] 📄 Paper Released on arXiv**  
   - Our paper is now available on [arXiv (2601.08536)](https://arxiv.org/abs/2601.08536).
@@ -39,7 +40,7 @@ For complete experimental results, model comparisons, and ablation studies, plea
 ## 📖 Overview
 
 <p align="center">
-  <img src="assets/introv2.png" alt="Three-layer framework: recall, analysis, presentation" width="70%">
+  <img src="assets/introv2.png" alt="Three-layer framework: recall, analysis, presentation" width="100%">
 </p>
 
 <p align="center">
@@ -116,7 +117,7 @@ Rubrics are built through a four-stage pipeline:
 4. **Expert review & refinement** – domain experts ensure that rubrics faithfully represent the article’s core content.
 
 <p align="center">
-  <img src="assets/methodv2.png" alt="Method overview" width="90%">
+  <img src="assets/methodv2.png" alt="Method overview" width="80%">
 </p>
 
 
