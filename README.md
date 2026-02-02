@@ -172,7 +172,7 @@ please refer to the paper (`paper/main.pdf`) and any public leaderboard associat
 
 ---
 
-## 🛠️ Installation and Usage
+## 🛠️ Installation
 
 ### Prerequisites
 
@@ -258,31 +258,8 @@ pip install requests python-docx
 
 You can then run all commands inside this conda environment.
 
----
 
-### 3. Run evaluation
 
-#### Run via `uv` (recommended)
-
-```bash
-cd DeepResearch-Bench-II
-uv run python run_evaluation.py
-```
-
-#### Run directly with `python`
-
-```bash
-cd DeepResearch-Bench-II
-
-# Use configuration from .env
-python run_evaluation.py
-
-# Or override configuration via CLI arguments
-python run_evaluation.py \
-    --pdf_dir grok \
-    --out_jsonl result.jsonl \
-    --chunk_size 50
-```
 
 ---
 
@@ -339,12 +316,26 @@ report/
 
 ### 2. Run the evaluator
 
+#### Run via `uv` (recommended)
+
 ```bash
+cd DeepResearch-Bench-II
+uv run python run_evaluation.py
+```
+
+#### Run directly with `python`
+
+```bash
+cd DeepResearch-Bench-II
+
+# Use configuration from .env
+python run_evaluation.py
+
+# Or override configuration via CLI arguments
 python run_evaluation.py \
-  --pdf_dir report \
-  --out_jsonl result.jsonl \
-  --chunk_size 50 \
-  --max_workers 10
+    --pdf_dir grok \
+    --out_jsonl result.jsonl \
+    --chunk_size 50
 ```
 
 This produces a JSONL file where each line has the form:
