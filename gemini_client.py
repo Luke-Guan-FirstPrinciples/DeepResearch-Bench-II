@@ -13,6 +13,7 @@ import requests
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.parse import urlparse, urlunparse
 
 
 def _load_env_file(env_path: str = ".env") -> Dict[str, str]:
@@ -168,6 +169,9 @@ class GeminiClient:
         "image/tiff",
         "application/pdf",
     }
+    GOOGLE_GEMINI_HOSTS = {
+        "generativelanguage.googleapis.com",
+    }
     
     def __init__(
         self,
@@ -231,25 +235,12 @@ class GeminiClient:
         # Print upload info
         if self.verbose:
             self._print_upload_info(upload_stats)
-        
-        # Build request
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_token}",
-            "rock-request-id": self.request_id
-        }
-        
-        payload = {
-            "model": self.model,
-            "contents": [{"role": "user", "parts": parts}]
-        }
-        
-        if input_data.stream:
-            payload["stream"] = True
+
+        request_url, headers, payload = self._build_request(parts, input_data.stream)
         
         # Send request
         resp = requests.post(
-            self.api_url,
+            request_url,
             json=payload,
             headers=headers,
             timeout=600,
@@ -273,6 +264,97 @@ class GeminiClient:
             upload_stats=upload_stats,
             raw_response=resp_json
         )
+
+    def _build_request(self, parts: List[Dict], stream: bool) -> Tuple[str, Dict, Dict]:
+        """
+        Build the final request URL, headers and payload.
+
+        Supports both:
+        - Google native Gemini REST endpoints authenticated via `x-goog-api-key`
+        - Proxy/gateway endpoints authenticated via `Authorization: Bearer ...`
+        """
+        if self._is_google_native_api():
+            headers = {
+                "Content-Type": "application/json",
+                "x-goog-api-key": self.api_token,
+                "x-goog-api-client": "deepresearch-bench-ii/1.0",
+            }
+            payload = {
+                "contents": [{"role": "user", "parts": parts}]
+            }
+            return self._build_google_native_url(stream), headers, payload
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_token}",
+        }
+        if self.request_id:
+            headers["rock-request-id"] = self.request_id
+
+        payload = {
+            "model": self.model,
+            "contents": [{"role": "user", "parts": parts}]
+        }
+
+        if stream:
+            payload["stream"] = True
+
+        return self.api_url, headers, payload
+
+    def _is_google_native_api(self) -> bool:
+        """
+        Detect Google native Gemini REST endpoints.
+
+        Native Gemini uses Gemini-style `contents` payloads and `x-goog-api-key`
+        authentication. OpenAI-compatible Gemini endpoints live under `/openai/`
+        and should continue to use bearer auth.
+        """
+        parsed = urlparse(self.api_url)
+        host = parsed.netloc.lower()
+        path = parsed.path.lower()
+        return host in self.GOOGLE_GEMINI_HOSTS and "/openai/" not in path
+
+    def _build_google_native_url(self, stream: bool) -> str:
+        """
+        Normalize Google native Gemini URLs.
+
+        Accepted forms include:
+        - https://generativelanguage.googleapis.com/v1beta
+        - https://generativelanguage.googleapis.com/v1beta/models
+        - https://generativelanguage.googleapis.com/v1beta/models/<model>
+        - https://generativelanguage.googleapis.com/v1beta/models/<model>:generateContent
+        """
+        parsed = urlparse(self.api_url)
+        path = parsed.path.rstrip("/")
+        lowered_path = path.lower()
+        suffix = "streamGenerateContent" if stream else "generateContent"
+
+        if lowered_path.endswith(":generatecontent") or lowered_path.endswith(":streamgeneratecontent"):
+            normalized_path = self._replace_generate_suffix(path, suffix)
+        elif "/models/" in path:
+            normalized_path = f"{path}:{suffix}"
+        elif path.endswith("/models"):
+            normalized_path = f"{path}/{self.model}:{suffix}"
+        else:
+            normalized_path = f"{path}/models/{self.model}:{suffix}"
+
+        return urlunparse(parsed._replace(path=normalized_path))
+
+    def _replace_generate_suffix(self, path: str, suffix: str) -> str:
+        """
+        Swap generateContent and streamGenerateContent while preserving the rest
+        of the URL path.
+        """
+        if path.endswith(":generateContent"):
+            return path[: -len(":generateContent")] + f":{suffix}"
+        if path.endswith(":streamGenerateContent"):
+            return path[: -len(":streamGenerateContent")] + f":{suffix}"
+        lowered = path.lower()
+        if lowered.endswith(":generatecontent"):
+            return path[: -len(":generatecontent")] + f":{suffix}"
+        if lowered.endswith(":streamgeneratecontent"):
+            return path[: -len(":streamgeneratecontent")] + f":{suffix}"
+        return path
     
     def _build_parts(
         self,
@@ -366,4 +448,3 @@ class GeminiClient:
         
         if info_parts:
             print(f"[upload] {', '.join(info_parts)}")
-

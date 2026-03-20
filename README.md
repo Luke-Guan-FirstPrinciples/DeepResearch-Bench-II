@@ -176,7 +176,7 @@ please refer to the paper (`paper/main.pdf`) and any public leaderboard associat
 ### Prerequisites
 
 - Python **3.9+**
-- A Gemini-compatible API endpoint and token
+- A Gemini API key or a Gemini-compatible proxy/gateway token
 
 ---
 
@@ -190,11 +190,11 @@ touch .env
 vim .env  # or use your favorite editor
 ```
 
-**Required config** (replace with your own values):
+**Required config** for Google native Gemini API (replace with your own values):
 
 ```bash
-GEMINI_API_URL=https://your-api-endpoint.com/v1/chat/completions
-GEMINI_API_TOKEN=your-api-token
+GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta
+GEMINI_API_TOKEN=your-google-ai-studio-api-key
 GEMINI_MODEL=gemini-2.5-pro
 GEMINI_REQUEST_ID=eval-request-id
 
@@ -203,10 +203,18 @@ OUT_JSONL=result.jsonl
 TASKS_JSONL=tasks_and_rubrics.jsonl
 CHUNK_SIZE=50
 MAX_WORKERS=10
-MAX_RETRIES=5
+MAX_RETRIES=10
 MAX_PAPER_CHARS=150000
 LOG_FILE=run_evaluation.log
 ```
+
+For Google native Gemini, the client will call
+`https://generativelanguage.googleapis.com/v1beta/models/<GEMINI_MODEL>:generateContent`
+and authenticate with `x-goog-api-key: <GEMINI_API_TOKEN>`.
+
+If you are using a custom Gemini-compatible proxy/gateway instead, you can still set
+`GEMINI_API_URL` to that full endpoint URL and `GEMINI_API_TOKEN` to the bearer token
+expected by that service.
 
 ---
 
@@ -392,5 +400,3 @@ If you use DeepResearch Bench II or this evaluation pipeline in your research, p
       url={https://arxiv.org/abs/2601.08536}, 
 }
 ```
-
-
